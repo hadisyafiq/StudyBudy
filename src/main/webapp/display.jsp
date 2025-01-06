@@ -161,6 +161,10 @@
                 color: #0000FF;
             }
 
+			.form-btn  {
+               margin:auto;
+            }
+            
             .admin-action {
                 display: flex;
                 gap: 0.5rem;
@@ -227,9 +231,19 @@
 	                        <div class="username-detail"><a>********</a></div>
 	                        <div class="username-detail"><a>${user.email}</a></div>
 	                        <div class="username-detail"><a>${user.role}</a></div>
+	                        
 	                        <div class="admin-action">
-	                            <a href="deleteuser.jsp" class="delete-btn"><b>-</b></a>
-	                            <a href="edituser.jsp" class="edit-btn">/</a>	                            
+	                        <a href="deleteuser.jsp?name=${user.name}&password=${user.password}&email=${user.email}&role=${user.role}" 
+	                        		class="delete-btn"><b>-</b></a>
+	                        
+	                        <!-- <form class="form-btn" action="deleteuser" method="POST">
+    <input type="hidden" name="name" value="${user.name}">
+    <input type="hidden" name="password" value="${user.password}">
+    <input type="hidden" name="email" value="${user.email}">
+    <input type="hidden" name="role" value="${user.role}">
+    <button class="delete-btn"><b>-</b></button>
+</form>    -->                       
+	                           <a href="edituser.jsp" class="edit-btn">/</a>                             
 	                        </div>       
 	                    </div> 
 	                 </c:forEach>

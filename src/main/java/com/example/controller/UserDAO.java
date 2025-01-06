@@ -28,7 +28,7 @@ public class UserDAO {
 
     // Method to get all users
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>(); // Corrected variable name
+        List<User> users = new ArrayList<>();
         String query = "SELECT * FROM users";
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(query);
@@ -39,7 +39,7 @@ public class UserDAO {
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
                 user.setRole(rs.getString("role"));
-                users.add(user); // Add user to the list
+                users.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,36 +47,32 @@ public class UserDAO {
         return users;
     }
 
- // Method to insert a new user to the database
+    // Method to insert a new user into the database
     public boolean addUser(User user) {
-        // Validate input: name must not be null or empty
         if (user.getName() == null || user.getName().trim().isEmpty()) {
-            return false; // Return false if the name is null or empty
+            return false;
         }
 
-        // SQL query to check if a user with the same name already exists
         String checkQuery = "SELECT COUNT(*) FROM users WHERE name = ?";
         String insertQuery = "INSERT INTO users (name, password, email, role) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
              PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
 
-            // Check if the name already exists in the database
             checkStmt.setString(1, user.getName());
             try (ResultSet rs = checkStmt.executeQuery()) {
                 if (rs.next() && rs.getInt(1) > 0) {
-                    return false; // Return false if a duplicate name exists
+                    return false;
                 }
             }
 
-            // Insert the user if the name does not exist
             try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                 insertStmt.setString(1, user.getName());
                 insertStmt.setString(2, user.getPassword());
                 insertStmt.setString(3, user.getEmail());
                 insertStmt.setString(4, user.getRole());
                 int rowsInserted = insertStmt.executeUpdate();
-                return rowsInserted > 0; // Return true if the user was added successfully
+                return rowsInserted > 0;
             }
 
         } catch (SQLException e) {
@@ -84,6 +80,21 @@ public class UserDAO {
         }
         return false;
     }
-    
-    
+
+    // Method to delete a user based on userId
+    public boolean deleteUser(String name, String password, String email, String role) {
+        String deleteQuery = "DELETE FROM users WHERE name = ? AND password = ? AND email = ? AND role = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery)) {
+            deleteStmt.setString(1, name);
+            deleteStmt.setString(2, password);
+            deleteStmt.setString(3, email);
+            deleteStmt.setString(4, role);
+            int rowsDeleted = deleteStmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

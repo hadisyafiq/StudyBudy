@@ -35,10 +35,10 @@
         }
 
         .content2 {
-			    grid-column-start: 2;
-                grid-column-end: 10;
-                text-align: center;
-                align-content: center;         
+            grid-column-start: 2;
+            grid-column-end: 10;
+            text-align: center;
+            align-content: center;         
         }
 
         .content2 > a {
@@ -67,6 +67,10 @@
             padding: 2rem;
             position: relative;
         }
+        
+        .form-btn  {
+               margin:auto;
+            }
 
         .box h1 {
             font-size: 24px;
@@ -100,7 +104,6 @@
         .confirm-button:hover {
             background-color: #f44336;
             font-family: 'Anek Bangla';
-            
         }
 
         .close-button {
@@ -119,10 +122,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .close-button {
-            background-color: #4e60ff;
         }
     </style>
     <title>Admin Dashboard</title>
@@ -149,13 +148,19 @@
         <h1>Delete User</h1>
         <div class="form-grid">
             <div>
-                <label for="name">Are you sure?</label>
+                <label for="name">Are you sure you want to delete this user?</label>
             </div>
         </div>
-        <form action="deleteuser" method="POST">
-	    <input type="hidden" name="del" value=${status.index}>
-        <button class="confirm-button">CONFIRM</button>
-        </form>
+     
+<form class="form-btn" action="deleteuser" method="POST">
+   <input type="hidden" name="name" value="<%= request.getParameter("name") %>">
+<input type="hidden" name="password" value="<%= request.getParameter("password") %>">
+<input type="hidden" name="email" value="<%= request.getParameter("email") %>">
+<input type="hidden" name="role" value="<%= request.getParameter("role") %>">
+    <button class="confirm-button">CONFIRM</button>
+</form>
+            
+            
     </div>  
 </body>
 </html>
