@@ -1,0 +1,24 @@
+.navbar {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat();
+    background-color: black;
+}
+
+.content1 {
+    background-color: blue;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+}
+
+html {
+    background-color: red;
+}
+
+
+
+
