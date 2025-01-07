@@ -67,48 +67,53 @@ public class AdminController {
     }
     
     
-    @RequestMapping("/edituser")
+    @RequestMapping(value = "/edituser", method = RequestMethod.POST)
     public String editUser(@RequestParam("name") String name,
-                          @RequestParam("password") String password,
-                          @RequestParam("email") String email,
-                          @RequestParam("role") String role,
-                          HttpSession session) {
+                           @RequestParam("password") String password,
+                           @RequestParam("email") String email,
+                           @RequestParam("role") String role,
+                           @RequestParam("originalEmail") String originalEmail,
+                           HttpSession session) {
         
-        boolean isUpdated = userDAO.updateUser(name, password, email, role);
-        
+        // Call the updateUser method in the DAO to update the user in the database
+        boolean isUpdated = userDAO.updateUser(originalEmail, name, password, email, role);
+
         if (isUpdated) {
-            // Create a User object with updated information
-            User updatedUser = new User();
-            updatedUser.setName(name);
-            updatedUser.setPassword(password);
-            updatedUser.setEmail(email);
-            updatedUser.setRole(role);
-            
-            // Store updated user in session for display
+            // If update is successful, create a User object with updated information
+            User updatedUser = new User(name, password, email, role);
+
+            // Store the updated user in session for display on the next page
             session.setAttribute("updatedUser", updatedUser);
+
+            // Redirect to the UpdatedUser page to display the updated user information
             return "redirect:/UpdatedUser";
         } else {
-            System.out.println("Failed to update the user in database");
+            // If update failed, log the error and redirect back to the admin page
+            System.out.println("Failed to update the user in the database");
             return "redirect:/admin.jsp";
         }
     }
     
     @RequestMapping("/UpdatedUser")
     public String displayUpdatedUser(HttpSession session, Model model) {
+        // Get the updated user object from the session
         User updatedUser = (User) session.getAttribute("updatedUser");
-        
+
         if (updatedUser != null) {
+            // Add the updated user to the model to be displayed in the view
             model.addAttribute("user", updatedUser);
-            // Clear the session attribute after use
+
+            // Clear the session attribute after it's used
             session.removeAttribute("updatedUser");
+
+            // You can add additional logic here to refresh the list of users, if necessary
+            model.addAttribute("users", userDAO.getAllUsers()); // Optional: refresh the users list
             
-            // Add this line to refresh the users list
-            model.addAttribute("users", userDAO.getAllUsers());
-           
-            return "display";  // This will show display.jsp
+            // Return the view name for displaying the updated user
+            return "display";  // This will show the updated user in the display.jsp page
         } else {
+            // If the updated user is not found, redirect to the admin page
             return "redirect:/admin.jsp";
         }
     }
 }
-

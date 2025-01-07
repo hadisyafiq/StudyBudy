@@ -175,27 +175,31 @@
     <div class="box">
         <a href="admin.jsp" class="close-button">&times;</a>
         <h1>Edit User</h1>
-        <form class="form-btn" action="edituser" method="GET">
-            <div class="form-grid">
-                <div>
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" value="<%= request.getParameter("name") %>">
-                </div>
-                <div>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" value="<%= request.getParameter("password") %>">
-                </div>
-                <div>
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<%= request.getParameter("email") %>">
-                </div>
-                <div>
-                    <label for="role">Role</label>
-                    <input type="text" id="role" name="role" value="<%= request.getParameter("role") %>">
-                </div>
-            </div>
-            <button class="confirm-button">CONFIRM</button>
-        </form>
+        <form class="form-btn" action="edituser" method="POST">
+    <div class="form-grid">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" value="<%= request.getParameter("password") != null ? request.getParameter("password") : "" %>">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>">
+        </div>
+        <div>
+            <label for="role">Role</label>
+            <input type="text" id="role" name="role" value="<%= request.getParameter("role") != null ? request.getParameter("role") : "" %>">
+        </div>
+        <!-- Hidden field to store the original email -->
+        <div>
+            <input type="hidden" name="originalEmail" value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>">
+        </div>
+    </div>
+    <button class="confirm-button">CONFIRM</button>
+</form>
     </div>
 </body>
 </html>

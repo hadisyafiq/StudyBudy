@@ -98,26 +98,29 @@ public class UserDAO {
         return false;
     }
     
-    //method to update user name, password, email, role
-    public boolean updateUser(String name, String password, String email, String role) {
-        String updateQuery = "UPDATE users SET password = ?, email = ?, role = ? WHERE name = ? ";
-        
+ // Method to update a user based on users name, password, email, role
+    public boolean updateUser(String originalEmail, String name, String password, String email, String role) {
+        // Prepare the SQL query to update the user
+        String updateQuery = "UPDATE users SET name = ?, password = ?, email = ?, role = ? WHERE email = ?";
+
         try (Connection connection = getConnection();
-             PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
-            
-            updateStmt.setString(1, password);
-            updateStmt.setString(2, email);
-            updateStmt.setString(3, role);
-            updateStmt.setString(4, name);
-            
-            int rowsUpdated = updateStmt.executeUpdate();
-            return rowsUpdated > 0;
+             PreparedStatement stmt = connection.prepareStatement(updateQuery)) {
+
+            // Set parameters for the query
+            stmt.setString(1, name);
+            stmt.setString(2, password);
+            stmt.setString(3, email); // Set the new email
+            stmt.setString(4, role);
+            stmt.setString(5, originalEmail); // Find the user based on originalEmail
+
+            // Execute the update query
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0; // Return true if rows were updated
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return false; // Return false in case of an error
         }
     }
-
-        
+    
 
 }
