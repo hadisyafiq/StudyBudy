@@ -81,7 +81,7 @@ public class UserDAO {
         return false;
     }
 
-    // Method to delete a user based on userId
+    // Method to delete a user based on users name, password, email, role
     public boolean deleteUser(String name, String password, String email, String role) {
         String deleteQuery = "DELETE FROM users WHERE name = ? AND password = ? AND email = ? AND role = ?";
         try (Connection connection = getConnection();

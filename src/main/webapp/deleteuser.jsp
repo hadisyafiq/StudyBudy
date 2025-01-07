@@ -122,6 +122,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-decoration: none;
         }
     </style>
     <title>Admin Dashboard</title>
@@ -144,7 +145,7 @@
         </div>
     </header>
     <div class="box">
-        <button class="close-button">&times;</button>
+        <a href="display.jsp" class="close-button">&times;</a>
         <h1>Delete User</h1>
         <div class="form-grid">
             <div>
@@ -152,15 +153,13 @@
             </div>
         </div>
      
-<form class="form-btn" action="deleteuser" method="POST">
-   <input type="hidden" name="name" value="<%= request.getParameter("name") %>">
-<input type="hidden" name="password" value="<%= request.getParameter("password") %>">
-<input type="hidden" name="email" value="<%= request.getParameter("email") %>">
-<input type="hidden" name="role" value="<%= request.getParameter("role") %>">
-    <button class="confirm-button">CONFIRM</button>
-</form>
-            
-            
-    </div>  
-</body>
+			<form class="form-btn" action="deleteuser" method="POST">
+				<input type="hidden" name="name" value="<%= request.getParameter("name") %>">
+				<input type="hidden" name="password" value="<%= request.getParameter("password") %>">
+				<input type="hidden" name="email" value="<%= request.getParameter("email") %>">
+				<input type="hidden" name="role" value="<%= request.getParameter("role") %>">
+   				<button class="confirm-button">CONFIRM</button>
+		   </form>         
+   		   </div>  
+	</body>
 </html>
