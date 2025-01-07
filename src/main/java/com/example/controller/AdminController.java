@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,5 +65,50 @@ public class AdminController {
         
         return "display";
     }
-
+    
+    
+    @RequestMapping("/edituser")
+    public String editUser(@RequestParam("name") String name,
+                          @RequestParam("password") String password,
+                          @RequestParam("email") String email,
+                          @RequestParam("role") String role,
+                          HttpSession session) {
+        
+        boolean isUpdated = userDAO.updateUser(name, password, email, role);
+        
+        if (isUpdated) {
+            // Create a User object with updated information
+            User updatedUser = new User();
+            updatedUser.setName(name);
+            updatedUser.setPassword(password);
+            updatedUser.setEmail(email);
+            updatedUser.setRole(role);
+            
+            // Store updated user in session for display
+            session.setAttribute("updatedUser", updatedUser);
+            return "redirect:/UpdatedUser";
+        } else {
+            System.out.println("Failed to update the user in database");
+            return "redirect:/admin.jsp";
+        }
+    }
+    
+    @RequestMapping("/UpdatedUser")
+    public String displayUpdatedUser(HttpSession session, Model model) {
+        User updatedUser = (User) session.getAttribute("updatedUser");
+        
+        if (updatedUser != null) {
+            model.addAttribute("user", updatedUser);
+            // Clear the session attribute after use
+            session.removeAttribute("updatedUser");
+            
+            // Add this line to refresh the users list
+            model.addAttribute("users", userDAO.getAllUsers());
+           
+            return "display";  // This will show display.jsp
+        } else {
+            return "redirect:/admin.jsp";
+        }
+    }
 }
+

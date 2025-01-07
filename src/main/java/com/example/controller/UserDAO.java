@@ -97,4 +97,27 @@ public class UserDAO {
         }
         return false;
     }
+    
+    //method to update user name, password, email, role
+    public boolean updateUser(String name, String password, String email, String role) {
+        String updateQuery = "UPDATE users SET password = ?, email = ?, role = ? WHERE name = ? ";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
+            
+            updateStmt.setString(1, password);
+            updateStmt.setString(2, email);
+            updateStmt.setString(3, role);
+            updateStmt.setString(4, name);
+            
+            int rowsUpdated = updateStmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+        
+
 }

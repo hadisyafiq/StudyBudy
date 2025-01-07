@@ -145,7 +145,7 @@
         </div>
     </header>
     <div class="box">
-        <a href="display.jsp" class="close-button">&times;</a>
+        <a href="admin.jsp" class="close-button">&times;</a>
         <h1>Delete User</h1>
         <div class="form-grid">
             <div>

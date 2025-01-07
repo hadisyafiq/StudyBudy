@@ -139,11 +139,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-decoration: none;
         }
 
         .close-button:hover {
             background-color: #3b4ed7;
         }
+        
+        .form.btn{
+        	margin:auto;
+        }
+        
     </style>
     <title>Admin Dashboard</title>
     </head>
@@ -166,30 +172,31 @@
         </header>
         
 <body>
-<form>
     <div class="box">
-        <button class="close-button">&times;</button>
+        <a href="admin.jsp" class="close-button">&times;</a>
         <h1>Edit User</h1>
-        <div class="form-grid">
-            <div>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter Name">
+        <form class="form-btn" action="edituser" method="GET">
+            <div class="form-grid">
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="<%= request.getParameter("name") %>">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" value="<%= request.getParameter("password") %>">
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="<%= request.getParameter("email") %>">
+                </div>
+                <div>
+                    <label for="role">Role</label>
+                    <input type="text" id="role" name="role" value="<%= request.getParameter("role") %>">
+                </div>
             </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter Password">
-            </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter Email">
-            </div>
-            <div>
-                <label for="role">Role</label>
-                <input type="text" id="role" name="role" placeholder="Enter Role">
-            </div>
-        </div>
-        <button class="confirm-button">CONFIRM</button>
+            <button class="confirm-button">CONFIRM</button>
+        </form>
     </div>
-    </form>
 </body>
 </html>
+
