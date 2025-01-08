@@ -191,6 +191,10 @@
             <label for="role">Role</label>
             <input type="text" id="role" name="role" placeholder="Enter Role">
         </div>
+        <div>
+            <label for="className">Class</label>
+            <input type="text" id="className" name="className" placeholder="Enter Class">
+        </div>
     </div>
     <button class="confirm-button">CONFIRM</button>
 </form>

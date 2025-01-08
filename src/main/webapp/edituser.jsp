@@ -193,10 +193,15 @@
             <label for="role">Role</label>
             <input type="text" id="role" name="role" value="<%= request.getParameter("role") != null ? request.getParameter("role") : "" %>">
         </div>
+         <div>
+            <label for="className">Class</label>
+            <input type="text" id="className" name="className" value="<%= request.getParameter("className") != null ? request.getParameter("className") : "" %>">
+        </div>
         <!-- Hidden field to store the original email -->
         <div>
             <input type="hidden" name="originalEmail" value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>">
         </div>
+       
     </div>
     <button class="confirm-button">CONFIRM</button>
 </form>

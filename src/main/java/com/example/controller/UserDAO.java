@@ -39,6 +39,7 @@ public class UserDAO {
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
                 user.setRole(rs.getString("role"));
+                user.setClassName(rs.getString("className"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -54,7 +55,7 @@ public class UserDAO {
         }
 
         String checkQuery = "SELECT COUNT(*) FROM users WHERE name = ?";
-        String insertQuery = "INSERT INTO users (name, password, email, role) VALUES (?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO users (name, password, email, role, className) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
              PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
@@ -71,6 +72,7 @@ public class UserDAO {
                 insertStmt.setString(2, user.getPassword());
                 insertStmt.setString(3, user.getEmail());
                 insertStmt.setString(4, user.getRole());
+                insertStmt.setString(5, user.getClassName());
                 int rowsInserted = insertStmt.executeUpdate();
                 return rowsInserted > 0;
             }
@@ -82,14 +84,15 @@ public class UserDAO {
     }
 
     // Method to delete a user based on users name, password, email, role
-    public boolean deleteUser(String name, String password, String email, String role) {
-        String deleteQuery = "DELETE FROM users WHERE name = ? AND password = ? AND email = ? AND role = ?";
+    public boolean deleteUser(String name, String password, String email, String role, String className) {
+        String deleteQuery = "DELETE FROM users WHERE name = ? AND password = ? AND email = ? AND role = ? AND className = ?";
         try (Connection connection = getConnection();
              PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery)) {
             deleteStmt.setString(1, name);
             deleteStmt.setString(2, password);
             deleteStmt.setString(3, email);
             deleteStmt.setString(4, role);
+            deleteStmt.setString(5, className);
             int rowsDeleted = deleteStmt.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
@@ -98,22 +101,20 @@ public class UserDAO {
         return false;
     }
     
- // Method to update a user based on users name, password, email, role
-    public boolean updateUser(String originalEmail, String name, String password, String email, String role) {
-        // Prepare the SQL query to update the user
-        String updateQuery = "UPDATE users SET name = ?, password = ?, email = ?, role = ? WHERE email = ?";
+    public boolean updateUser(String originalEmail, String name, String password, String email, String role, String className) {
+        String updateQuery = "UPDATE users SET name = ?, password = ?, email = ?, role = ?, className = ? WHERE email = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement stmt = connection.prepareStatement(updateQuery)) {
 
-            // Set parameters for the query
+            // Set parameters in the correct order
             stmt.setString(1, name);
             stmt.setString(2, password);
-            stmt.setString(3, email); // Set the new email
+            stmt.setString(3, email); // New email
             stmt.setString(4, role);
-            stmt.setString(5, originalEmail); // Find the user based on originalEmail
+            stmt.setString(5, className);
+            stmt.setString(6, originalEmail); // Original email
 
-            // Execute the update query
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0; // Return true if rows were updated
         } catch (SQLException e) {
@@ -121,6 +122,4 @@ public class UserDAO {
             return false; // Return false in case of an error
         }
     }
-    
-
 }

@@ -157,7 +157,8 @@
 				<input type="hidden" name="name" value="<%= request.getParameter("name") %>">
 				<input type="hidden" name="password" value="<%= request.getParameter("password") %>">
 				<input type="hidden" name="email" value="<%= request.getParameter("email") %>">
-				<input type="hidden" name="role" value="<%= request.getParameter("role") %>">				
+				<input type="hidden" name="role" value="<%= request.getParameter("role") %>">
+				<input type="hidden" name="className" value="<%= request.getParameter("className") %>">					
    				<button class="confirm-button">CONFIRM</button>
 		   </form>           
    		   </div>  

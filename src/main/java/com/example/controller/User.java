@@ -5,17 +5,19 @@ public class User {
 	    private String password;
 	    private String email;
 	    private String role;
+	    private String className;
 	    
 
 	    // Default Constructor
 	    public User() {}
 
 	    // Parameterized Constructor
-	    public User(String name, String password, String email, String role) {
+	    public User(String name, String password, String email, String role, String className) {
 	        this.name = name;
 	        this.password = password;
 	        this.email = email;
 	        this.role = role;
+	        this.className = className;
 	    }
 
 	    // Getter and Setter methods
@@ -30,6 +32,9 @@ public class User {
 
 	    public String getRole() {return role;}
 	    public void setRole(String role) {this.role = role;}
+	    
+	    public String getClassName() {return className;}
+	    public void setClassName(String className) {this.className = className;}
 	    
 	  
 	}

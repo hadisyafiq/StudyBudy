@@ -152,9 +152,29 @@
                 border-radius: 60px;
                 margin-bottom: 1rem;
                 display: grid;
-                grid-template-columns: 350px 170px 250px 130px 100px;
+                grid-template-columns: 230px 140px 240px 150px 140px 80px;
                 align-items: center;
                 gap: 1rem;
+            }
+            
+            .label-item {            	
+            	color: #000000;
+            	text-align: center;
+            	font-weight: bold;
+            	font-size: 17px; 
+            	
+            }
+            
+            .label1-item {
+            	background-color: #f8f9fa;
+                padding: 1rem;
+                border-radius: 60px;
+                margin-bottom: 1rem;
+                display: grid;
+                grid-template-columns: 150px 210px 190px 170px 118px 220px;
+                align-items: center;
+                gap: 1rem;
+            
             }
 
             .username-detail {
@@ -223,20 +243,32 @@
                 </h1>
 
                 <div class="greybox">
+                	<div class="label-item">
+                	 <div class="label1-item">
+            			<div>NAME</div>
+            			<div>PASSWORD</div>
+            			<div>EMAIL</div>
+            			<div>ROLE</div>
+            			<div>CLASS</div>
+            			<div>DELETE/EDIT</div>
+        			</div>
+        			</div> 
                     <c:if test="${not empty users}">
                 	<c:forEach var="user" items="${users}" >
 	                	<div class="admin-item">
 	                        <div class="username-detail"><a><b>${user.name}</b></a></div>
-	                        <div class="username-detail"><a>********</a></div>
+	                        <div class="username-detail"><a>******</a></div>
 	                        <div class="username-detail"><a>${user.email}</a></div>
 	                        <div class="username-detail"><a>${user.role}</a></div>
+	                        <div class="username-detail"><a>${user.className}</a></div>
 	                        
 	                        <div class="admin-action">
-	                           <a href="deleteuser.jsp?name=${user.name}&password=${user.password}&email=${user.email}&role=${user.role}" 
+	                           <a href="deleteuser.jsp?name=${user.name}&password=${user.password}&email=${user.email}&role=${user.role}&className=${user.className}" 
    									class="delete-btn"><b>-</b></a>	                        	                                         
-	                           <a href="edituser.jsp?id=&name=${user.name}&password=${user.password}&email=${user.email}&role=${user.role}" 
+	                           <a href="edituser.jsp?name=${user.name}&password=${user.password}&email=${user.email}&role=${user.role}&className=${user.className}" 
 	                           		class="edit-btn">/</a>                      
-	                        </div>       
+	                        </div> 
+	                              
 	                    </div> 
 	                 </c:forEach>
 	                </c:if>          	             

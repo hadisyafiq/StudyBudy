@@ -24,9 +24,10 @@ public class AdminController {
                            @RequestParam("password") String password,
                            @RequestParam("email") String email,
                            @RequestParam("role") String role, 
+                           @RequestParam("className") String className,
                            Model model) {
         // Create a User object from form data
-        User user = new User(name, password, email, role);
+        User user = new User(name, password, email, role, className);
 
         // Save the user to the database using UserDAO
         boolean isSaved = userDAO.addUser(user);
@@ -50,9 +51,10 @@ public class AdminController {
     public String deleteUser(@RequestParam("name") String name, 
                             @RequestParam("password") String password, 
                             @RequestParam("email") String email, 
-                            @RequestParam("role") String role, 
+                            @RequestParam("role") String role,
+                            @RequestParam("className") String className, 
                             Model model) {
-        boolean isDeleted = userDAO.deleteUser(name, password, email, role);
+        boolean isDeleted = userDAO.deleteUser(name, password, email, role, className);
         
         if (isDeleted) {
             model.addAttribute("message", "User deleted successfully!");
@@ -71,16 +73,17 @@ public class AdminController {
     public String editUser(@RequestParam("name") String name,
                            @RequestParam("password") String password,
                            @RequestParam("email") String email,
-                           @RequestParam("role") String role,
+                           @RequestParam("role") String role,   
                            @RequestParam("originalEmail") String originalEmail,
+                           @RequestParam("className") String className,
                            HttpSession session) {
         
         // Call the updateUser method in the DAO to update the user in the database
-        boolean isUpdated = userDAO.updateUser(originalEmail, name, password, email, role);
+        boolean isUpdated = userDAO.updateUser(originalEmail, name, password, email, role, className);
 
         if (isUpdated) {
             // If update is successful, create a User object with updated information
-            User updatedUser = new User(name, password, email, role);
+            User updatedUser = new User(name, password, email, role, className);
 
             // Store the updated user in session for display on the next page
             session.setAttribute("updatedUser", updatedUser);
@@ -93,7 +96,7 @@ public class AdminController {
             return "redirect:/admin.jsp";
         }
     }
-    
+
     @RequestMapping("/UpdatedUser")
     public String displayUpdatedUser(HttpSession session, Model model) {
         // Get the updated user object from the session
@@ -106,8 +109,8 @@ public class AdminController {
             // Clear the session attribute after it's used
             session.removeAttribute("updatedUser");
 
-            // You can add additional logic here to refresh the list of users, if necessary
-            model.addAttribute("users", userDAO.getAllUsers()); // Optional: refresh the users list
+            // Optional: Refresh the users list
+            model.addAttribute("users", userDAO.getAllUsers());
             
             // Return the view name for displaying the updated user
             return "display";  // This will show the updated user in the display.jsp page
@@ -116,4 +119,5 @@ public class AdminController {
             return "redirect:/admin.jsp";
         }
     }
+    
 }
